@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encrypted QR Code — Web Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- QR code generator -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <!-- ZXing for QR scanning -->
+  <script src="https://unpkg.com/@zxing/library@0.20.0"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Encrypted QR Code</h1>
+      <p>Encryption → QR generation → Scanning → Decryption</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="encrypt">Encrypt & Generate</button>
+      <button class="tab" data-tab="scan">Scan & Decrypt</button>
+    </nav>
+
+    <!-- Encrypt & Generate -->
+    <section id="encrypt" class="panel active">
+      <div class="card">
+        <label>Message</label>
+        <textarea id="message" placeholder="Type a secret message..."></textarea>
+
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter a password (keep it safe)"/>
+
+        <div class="row">
+          <button id="btn-encrypt">Encrypt & Generate QR</button>
+          <button id="btn-download" class="secondary" disabled>Download QR</button>
+        </div>
+
+        <div id="enc-out" class="out"></div>
+        <div id="qrcode" class="qrcode"></div>
+      </div>
+    </section>
+
+    <!-- Scan & Decrypt -->
+    <section id="scan" class="panel">
+      <div class="card">
+        <h3>Option A: Webcam Scanner</h3>
+        <div class="row">
+          <select id="camera-select"></select>
+          <button id="btn-start">Start Camera</button>
+          <button id="btn-stop" class="secondary">Stop</button>
+        </div>
+        <video id="video" muted playsinline></video>
+        <div id="scan-status" class="status">Camera idle.</div>
+
+        <h3>Option B: Decode from Image</h3>
+        <input type="file" id="file-input" accept="image/*" />
+        <div id="img-preview-wrap"><img id="img-preview" alt="" /></div>
+
+        <label>Password</label>
+        <input type="password" id="password-scan" placeholder="Enter the same password"/>
+        <button id="btn-decrypt" class="primary">Decrypt</button>
+
+        <div id="scan-out" class="out"></div>
+      </div>
+    </section>
+
+    <footer>
+      <small>Uses Web Crypto (AES-GCM, PBKDF2), QRCode.js and ZXing. All local; nothing is uploaded.</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
